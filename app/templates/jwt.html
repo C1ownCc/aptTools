@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+  <h2>JWT Decode</h2>
+  <div class="card">
+    <form class="api-form" data-endpoint="/jwt/decode" data-method="POST">
+      <label>JWT Token</label>
+      <textarea name="token" rows="6" placeholder="eyJ..." ></textarea>
+      <button type="submit" data-action="call">Decode</button>
+    </form>
+    <div class="result"></div>
+  </div>
+</section>
+{% endblock %}

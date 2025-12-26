@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+  <h2>Hash</h2>
+  <div class="card">
+    <form class="api-form" data-endpoint="/hash" data-method="POST">
+      <label>Text
+        <input type="text" name="text" placeholder="hello" />
+      </label>
+      <label>Algorithm
+        <select name="algo">
+          <option value="md5">md5</option>
+          <option value="sha256" selected>sha256</option>
+        </select>
+      </label>
+      <button type="submit" data-action="call">Hash It</button>
+    </form>
+    <div class="result"></div>
+  </div>
+</section>
+{% endblock %}

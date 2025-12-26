@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+  <h2>API Toolbox</h2>
+  <p>FastAPI utilities with simple UI. Use the menu to access tools.</p>
+  <div class="card">
+    <h3>Health</h3>
+    <form class="api-form" data-endpoint="/health" data-method="GET">
+      <button type="submit" data-action="call">Check Health</button>
+    </form>
+    <div class="result" id="health-result"></div>
+  </div>
+  <div class="card small">
+    <p>Version: {{ version }}</p>
+    <p>API Key: <code>{{ api_key }}</code></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+  <h2>Time</h2>
+  <div class="card">
+    <form class="api-form" data-endpoint="/time" data-method="GET">
+      <button type="submit" data-action="call">Get Time</button>
+    </form>
+    <div class="result"></div>
+  </div>
+</section>
+{% endblock %}

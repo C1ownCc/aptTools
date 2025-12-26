@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+  <h2>JSON Formatter</h2>
+  <div class="card">
+    <form class="api-form" data-endpoint="/json/format" data-method="POST" data-raw-body="true">
+      <label>JSON Input</label>
+      <textarea name="raw" rows="8" placeholder='{"hello": "world"}'></textarea>
+      <button type="submit" data-action="call">Format</button>
+    </form>
+    <div class="result"></div>
+  </div>
+</section>
+{% endblock %}
