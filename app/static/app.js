@@ -16,6 +16,16 @@
         loading: 'Loading...',
         api_key: 'API Key',
         version: 'Version',
+        result: {
+          summary: 'Summary',
+          status: 'Status',
+          client: 'Client (ms)',
+          server: 'Server (ms)',
+          request_id: 'Request ID',
+          title_visual: 'Visual',
+          title_raw: 'Raw JSON',
+          no_structure: 'Response has no structured data',
+        },
       },
       home: {
         heading: 'API Toolbox',
@@ -66,6 +76,16 @@
         loading: '加载中...',
         api_key: 'API 密钥',
         version: '版本',
+        result: {
+          summary: '概览',
+          status: '状态码',
+          client: '客户端耗时 (毫秒)',
+          server: '服务端耗时 (毫秒)',
+          request_id: '请求 ID',
+          title_visual: '可视化',
+          title_raw: '原始 JSON',
+          no_structure: '响应无可视化结构',
+        },
       },
       home: {
         heading: 'API 工具箱',
@@ -164,6 +184,121 @@
     return params;
   }
 
+  function createStructuredList(data) {
+    if (data === null) return null;
+
+    const container = document.createElement('div');
+    container.className = 'kv-list';
+    const entries = Array.isArray(data) ? data.map((value, index) => [`[${index}]`, value]) : Object.entries(data);
+
+    entries.forEach(([key, value]) => {
+      const row = document.createElement('div');
+      row.className = 'kv-row';
+
+      const keyEl = document.createElement('div');
+      keyEl.className = 'kv-key';
+      keyEl.textContent = key;
+
+      const valueEl = document.createElement('div');
+      valueEl.className = 'kv-value';
+
+      if (value !== null && typeof value === 'object') {
+        const nested = createStructuredList(value);
+        if (nested) valueEl.appendChild(nested);
+      } else {
+        valueEl.textContent = String(value);
+        valueEl.classList.add('kv-leaf');
+      }
+
+      row.appendChild(keyEl);
+      row.appendChild(valueEl);
+      container.appendChild(row);
+    });
+
+    return container;
+  }
+
+  function buildResultLayout(resultEl, responseData, statusCode, durationMsClient) {
+    const translate = (path) => resolveTranslation(path, currentLang) || path;
+    resultEl.innerHTML = '';
+
+    const summary = document.createElement('div');
+    summary.className = 'result-summary';
+
+    const statusChip = document.createElement('span');
+    statusChip.className = `result-chip status-${statusCode >= 200 && statusCode < 300 ? 'ok' : 'error'}`;
+    statusChip.textContent = `${translate('common.result.status')}: ${statusCode}`;
+    summary.appendChild(statusChip);
+
+    const clientChip = document.createElement('span');
+    clientChip.className = 'result-chip';
+    clientChip.textContent = `${translate('common.result.client')}: ${durationMsClient}`;
+    summary.appendChild(clientChip);
+
+    const serverDuration = typeof responseData?.duration_ms === 'number' ? responseData.duration_ms : null;
+    if (serverDuration !== null) {
+      const serverChip = document.createElement('span');
+      serverChip.className = 'result-chip';
+      serverChip.textContent = `${translate('common.result.server')}: ${serverDuration}`;
+      summary.appendChild(serverChip);
+    }
+
+    const requestId = responseData?.request_id;
+    if (requestId) {
+      const idChip = document.createElement('span');
+      idChip.className = 'result-chip';
+      idChip.textContent = `${translate('common.result.request_id')}: ${requestId}`;
+      summary.appendChild(idChip);
+    }
+
+    const visualSection = document.createElement('div');
+    visualSection.className = 'result-section';
+
+    const visualTitle = document.createElement('div');
+    visualTitle.className = 'result-title';
+    visualTitle.textContent = translate('common.result.title_visual');
+
+    const visualContent = document.createElement('div');
+    visualContent.className = 'result-body';
+
+    if (responseData && typeof responseData === 'object') {
+      const structured = createStructuredList(responseData);
+      if (structured) {
+        visualContent.appendChild(structured);
+      } else {
+        const empty = document.createElement('div');
+        empty.className = 'result-empty';
+        empty.textContent = translate('common.result.no_structure');
+        visualContent.appendChild(empty);
+      }
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'result-empty';
+      empty.textContent = translate('common.result.no_structure');
+      visualContent.appendChild(empty);
+    }
+
+    const rawSection = document.createElement('div');
+    rawSection.className = 'result-section';
+
+    const rawTitle = document.createElement('div');
+    rawTitle.className = 'result-title';
+    rawTitle.textContent = translate('common.result.title_raw');
+
+    const pre = document.createElement('pre');
+    pre.textContent = formatJSON({ status: statusCode, duration_ms_client: durationMsClient, data: responseData });
+
+    rawSection.appendChild(rawTitle);
+    rawSection.appendChild(pre);
+
+    visualSection.appendChild(visualTitle);
+    visualSection.appendChild(visualContent);
+
+    resultEl.appendChild(summary);
+    resultEl.appendChild(visualSection);
+    resultEl.appendChild(rawSection);
+  }
+
   async function callApi(source) {
     const form = source.closest('form.api-form');
     const endpoint = (form && form.dataset.endpoint) || source.dataset.endpoint;
@@ -225,12 +360,8 @@
         parsed = { raw: text };
       }
       const duration = (performance.now() - started).toFixed(1);
-      const display = {
-        status: res.status,
-        duration_ms_client: Number(duration),
-        data: parsed,
-      };
-      resultEl.textContent = formatJSON(display);
+      const durationMsClient = Number(duration);
+      buildResultLayout(resultEl, parsed, res.status, durationMsClient);
     } catch (err) {
       resultEl.textContent = 'Error: ' + err;
     }
