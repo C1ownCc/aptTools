@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>API Toolbox</h2>
-  <p>FastAPI utilities with simple UI. Use the menu to access tools.</p>
+  <h2 data-i18n="home.heading">API Toolbox</h2>
+  <p data-i18n="home.description">FastAPI utilities with simple UI. Use the menu to access tools.</p>
   <div class="card">
-    <h3>Health</h3>
+    <h3 data-i18n="home.health.title">Health</h3>
     <form class="api-form" data-endpoint="/health" data-method="GET">
-      <button type="submit" data-action="call">Check Health</button>
+      <button type="submit" data-action="call" data-i18n="home.health.button">Check Health</button>
     </form>
     <div class="result" id="health-result"></div>
   </div>
   <div class="card small">
-    <p>Version: {{ version }}</p>
-    <p>API Key: <code>{{ api_key }}</code></p>
+    <p><span data-i18n="common.version">Version</span>: {{ version }}</p>
+    <p><span data-i18n="common.api_key">API Key</span>: <code>{{ api_key }}</code></p>
   </div>
 </section>
 {% endblock %}

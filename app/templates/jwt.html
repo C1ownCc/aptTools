@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>JWT Decode</h2>
+  <h2 data-i18n="pages.jwt.title">JWT Decode</h2>
   <div class="card">
     <form class="api-form" data-endpoint="/jwt/decode" data-method="POST">
-      <label>JWT Token</label>
-      <textarea name="token" rows="6" placeholder="eyJ..." ></textarea>
-      <button type="submit" data-action="call">Decode</button>
+      <label data-i18n="pages.jwt.label">JWT Token</label>
+      <textarea name="token" rows="6" placeholder="eyJ..." data-i18n-placeholder="pages.jwt.placeholder"></textarea>
+      <button type="submit" data-action="call" data-i18n="pages.jwt.button">Decode</button>
     </form>
     <div class="result"></div>
   </div>
