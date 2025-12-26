@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2 data-i18n="pages.hash.title">Hash</h2>
+  <div class="section-header">
+    <h2 data-i18n="pages.hash.title">Hash</h2>
+    <p class="section-subtitle">MD5 / SHA256 quick hashing</p>
+  </div>
   <div class="card">
+    <h3 class="card-title">输入 & 算法</h3>
     <form class="api-form" data-endpoint="/hash" data-method="POST">
-      <label data-i18n="pages.hash.text">Text
-        <input type="text" name="text" placeholder="hello" data-i18n-placeholder="pages.hash.placeholder" />
-      </label>
-      <label data-i18n="pages.hash.algo">Algorithm
-        <select name="algo">
-          <option value="md5" data-i18n="pages.hash.md5">md5</option>
-          <option value="sha256" selected data-i18n="pages.hash.sha256">sha256</option>
-        </select>
-      </label>
+      <div class="form-grid">
+        <label data-i18n="pages.hash.text">Text
+          <textarea name="text" rows="4" placeholder="hello" data-i18n-placeholder="pages.hash.placeholder" required></textarea>
+        </label>
+        <label data-i18n="pages.hash.algo">Algorithm
+          <select name="algo">
+            <option value="md5" data-i18n="pages.hash.md5">md5</option>
+            <option value="sha256" selected data-i18n="pages.hash.sha256">sha256</option>
+          </select>
+        </label>
+      </div>
       <button type="submit" data-action="call" data-i18n="pages.hash.button">Hash It</button>
     </form>
     <div class="result"></div>
