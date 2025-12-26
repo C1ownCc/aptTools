@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>Hash</h2>
+  <h2 data-i18n="pages.hash.title">Hash</h2>
   <div class="card">
     <form class="api-form" data-endpoint="/hash" data-method="POST">
-      <label>Text
-        <input type="text" name="text" placeholder="hello" />
+      <label data-i18n="pages.hash.text">Text
+        <input type="text" name="text" placeholder="hello" data-i18n-placeholder="pages.hash.placeholder" />
       </label>
-      <label>Algorithm
+      <label data-i18n="pages.hash.algo">Algorithm
         <select name="algo">
-          <option value="md5">md5</option>
-          <option value="sha256" selected>sha256</option>
+          <option value="md5" data-i18n="pages.hash.md5">md5</option>
+          <option value="sha256" selected data-i18n="pages.hash.sha256">sha256</option>
         </select>
       </label>
-      <button type="submit" data-action="call">Hash It</button>
+      <button type="submit" data-action="call" data-i18n="pages.hash.button">Hash It</button>
     </form>
     <div class="result"></div>
   </div>

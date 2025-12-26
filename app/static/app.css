@@ -34,6 +34,29 @@ body {
   color: #fff;
 }
 
+.lang-switch {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 16px;
+}
+
+.lang-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #334155;
+  background: #111827;
+  color: #e5e7eb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.lang-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
 .content {
   flex: 1;
   padding: 24px;

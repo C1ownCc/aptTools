@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>UUID Generator</h2>
+  <h2 data-i18n="pages.uuid.title">UUID Generator</h2>
   <div class="card">
     <form class="api-form" data-endpoint="/uuid" data-method="GET">
-      <label>Count (1-20)
+      <label data-i18n="pages.uuid.count">Count (1-20)
         <input type="number" name="count" value="3" min="1" max="20" />
       </label>
-      <button type="submit" data-action="call">Generate</button>
+      <button type="submit" data-action="call" data-i18n="pages.uuid.button">Generate</button>
     </form>
     <div class="result"></div>
   </div>

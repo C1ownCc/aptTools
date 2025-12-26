@@ -1,6 +1,150 @@
 (function() {
+  const translations = {
+    en: {
+      title: 'Toolbox',
+      nav: {
+        home: 'Home',
+        ip: 'IP',
+        time: 'Time',
+        uuid: 'UUID',
+        json: 'JSON',
+        hash: 'Hash',
+        jwt: 'JWT',
+        echo: 'Echo',
+      },
+      common: {
+        loading: 'Loading...',
+        api_key: 'API Key',
+        version: 'Version',
+      },
+      home: {
+        heading: 'API Toolbox',
+        description: 'FastAPI utilities with simple UI. Use the menu to access tools.',
+        health: {
+          title: 'Health',
+          button: 'Check Health',
+        },
+      },
+      pages: {
+        ip: { title: 'IP Lookup', button: 'Get IP' },
+        time: { title: 'Time', button: 'Get Time' },
+        uuid: { title: 'UUID Generator', count: 'Count (1-20)', button: 'Generate' },
+        json: { title: 'JSON Formatter', label: 'JSON Input', placeholder: '{"hello": "world"}', button: 'Format' },
+        hash: {
+          title: 'Hash',
+          text: 'Text',
+          placeholder: 'hello',
+          algo: 'Algorithm',
+          md5: 'md5',
+          sha256: 'sha256',
+          button: 'Hash It',
+        },
+        jwt: { title: 'JWT Decode', label: 'JWT Token', placeholder: 'eyJ...', button: 'Decode' },
+        echo: {
+          title: 'Echo',
+          query: 'Query Params (key=value&foo=bar)',
+          body: 'Body (text)',
+          placeholder_query: 'foo=bar',
+          placeholder_body: 'any text',
+          button: 'Send',
+        },
+      },
+    },
+    zh: {
+      title: '工具箱',
+      nav: {
+        home: '主页',
+        ip: 'IP',
+        time: '时间',
+        uuid: 'UUID',
+        json: 'JSON',
+        hash: '哈希',
+        jwt: 'JWT',
+        echo: '回显',
+      },
+      common: {
+        loading: '加载中...',
+        api_key: 'API 密钥',
+        version: '版本',
+      },
+      home: {
+        heading: 'API 工具箱',
+        description: '基于 FastAPI 的小工具集合。使用左侧菜单访问不同工具。',
+        health: {
+          title: '健康检查',
+          button: '检查服务',
+        },
+      },
+      pages: {
+        ip: { title: 'IP 查询', button: '获取 IP' },
+        time: { title: '时间', button: '获取时间' },
+        uuid: { title: 'UUID 生成器', count: '数量 (1-20)', button: '生成' },
+        json: { title: 'JSON 格式化', label: 'JSON 输入', placeholder: '{"hello": "world"}', button: '格式化' },
+        hash: {
+          title: '哈希',
+          text: '文本',
+          placeholder: 'hello',
+          algo: '算法',
+          md5: 'md5',
+          sha256: 'sha256',
+          button: '生成哈希',
+        },
+        jwt: { title: 'JWT 解码', label: 'JWT Token', placeholder: 'eyJ...', button: '解码' },
+        echo: {
+          title: '回显',
+          query: '查询参数 (key=value&foo=bar)',
+          body: '请求体 (文本)',
+          placeholder_query: 'foo=bar',
+          placeholder_body: '任意文本',
+          button: '发送',
+        },
+      },
+    },
+  };
+
   const apiKey = (window.APP_CONFIG && window.APP_CONFIG.apiKey) || '';
   const baseApi = (window.APP_CONFIG && window.APP_CONFIG.baseApi) || '';
+  const DEFAULT_LANG = 'en';
+  let currentLang = DEFAULT_LANG;
+
+  function resolveTranslation(path, lang) {
+    const parts = path.split('.');
+    let value = translations[lang] || translations[DEFAULT_LANG];
+    for (const part of parts) {
+      value = value ? value[part] : undefined;
+    }
+    return typeof value === 'string' ? value : null;
+  }
+
+  function applyTranslations(lang) {
+    const activeLang = translations[lang] ? lang : DEFAULT_LANG;
+    currentLang = activeLang;
+    localStorage.setItem('toolbox_lang', activeLang);
+    document.documentElement.setAttribute('lang', activeLang);
+    document.documentElement.dataset.lang = activeLang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const text = resolveTranslation(el.dataset.i18n, activeLang);
+      if (text) el.textContent = text;
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const text = resolveTranslation(el.dataset.i18nPlaceholder, activeLang);
+      if (text) el.setAttribute('placeholder', text);
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === activeLang);
+    });
+  }
+
+  function detectInitialLang() {
+    const saved = localStorage.getItem('toolbox_lang');
+    if (saved && translations[saved]) return saved;
+    const navLang = (navigator.language || '').toLowerCase();
+    if (navLang.startsWith('zh')) return 'zh';
+    return DEFAULT_LANG;
+  }
 
   function formatJSON(data) {
     try {
@@ -69,7 +213,7 @@
     }
 
     const started = performance.now();
-    resultEl.textContent = 'Loading...';
+    resultEl.textContent = resolveTranslation('common.loading', currentLang) || 'Loading...';
 
     try {
       const res = await fetch(url, fetchOptions);
@@ -105,5 +249,15 @@
       e.preventDefault();
       callApi(form);
     });
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyTranslations(btn.dataset.lang);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTranslations(detectInitialLang());
   });
 })();

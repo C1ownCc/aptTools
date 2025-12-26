@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>JSON Formatter</h2>
+  <h2 data-i18n="pages.json.title">JSON Formatter</h2>
   <div class="card">
     <form class="api-form" data-endpoint="/json/format" data-method="POST" data-raw-body="true">
-      <label>JSON Input</label>
-      <textarea name="raw" rows="8" placeholder='{"hello": "world"}'></textarea>
-      <button type="submit" data-action="call">Format</button>
+      <label data-i18n="pages.json.label">JSON Input</label>
+      <textarea name="raw" rows="8" placeholder='{"hello": "world"}' data-i18n-placeholder="pages.json.placeholder"></textarea>
+      <button type="submit" data-action="call" data-i18n="pages.json.button">Format</button>
     </form>
     <div class="result"></div>
   </div>

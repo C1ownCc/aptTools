@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 <section>
-  <h2>Echo</h2>
+  <h2 data-i18n="pages.echo.title">Echo</h2>
   <div class="card">
     <form class="api-form" data-endpoint="/echo" data-method="POST" data-query-field="query">
-      <label>Query Params (key=value&foo=bar)</label>
-      <input type="text" name="query" placeholder="foo=bar" />
-      <label>Body (text)</label>
-      <textarea name="body" rows="4" placeholder="any text"></textarea>
-      <button type="submit" data-action="call">Send</button>
+      <label data-i18n="pages.echo.query">Query Params (key=value&foo=bar)</label>
+      <input type="text" name="query" placeholder="foo=bar" data-i18n-placeholder="pages.echo.placeholder_query" />
+      <label data-i18n="pages.echo.body">Body (text)</label>
+      <textarea name="body" rows="4" placeholder="any text" data-i18n-placeholder="pages.echo.placeholder_body"></textarea>
+      <button type="submit" data-action="call" data-i18n="pages.echo.button">Send</button>
     </form>
     <div class="result"></div>
   </div>
