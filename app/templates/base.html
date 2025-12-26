@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toolbox</title>
+  <link rel="stylesheet" href="/toolbox/static/app.css">
+  <script>
+    window.APP_CONFIG = {
+      apiKey: "{{ api_key|default('') }}",
+      baseApi: '/toolbox/api'
+    };
+  </script>
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <h1>Toolbox</h1>
+      <a href="/toolbox/">Home</a>
+      <a href="/toolbox/ip">IP</a>
+      <a href="/toolbox/time">Time</a>
+      <a href="/toolbox/uuid">UUID</a>
+      <a href="/toolbox/json">JSON</a>
+      <a href="/toolbox/hash">Hash</a>
+      <a href="/toolbox/jwt">JWT</a>
+      <a href="/toolbox/echo">Echo</a>
+    </nav>
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  <script src="/toolbox/static/app.js"></script>
+</body>
+</html>
