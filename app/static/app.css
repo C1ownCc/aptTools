@@ -165,15 +165,14 @@ button:hover {
 }
 
 .result {
-  background: #0b1220;
-  color: #e5e7eb;
-  padding: 14px;
-  border-radius: 12px;
+  background: #0b1727;
+  color: #d1d5db;
+  padding: 12px;
+  border-radius: 6px;
   font-family: "SFMono-Regular", Consolas, Monaco, monospace;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border: 1px solid #0f172a;
 }
 
 .notice {
@@ -188,12 +187,12 @@ button:hover {
 }
 
 .result-chip {
-  background: rgba(255, 255, 255, 0.05);
+  background: #111827;
   color: #e5e7eb;
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid #1f2937;
 }
 
 .result-chip.status-ok {
@@ -209,7 +208,7 @@ button:hover {
 .result-section {
   background: #0f172a;
   border: 1px solid #1f2937;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
 }
 
@@ -228,8 +227,8 @@ button:hover {
 
 .kv-list {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 6px 14px;
+  grid-template-columns: 160px 1fr;
+  gap: 4px 12px;
 }
 
 .kv-row {
@@ -248,9 +247,9 @@ button:hover {
 }
 
 .kv-value .kv-list {
-  margin-top: 4px;
+  margin-top: 6px;
   padding-left: 8px;
-  border-left: 1px solid #1f2937;
+  border-left: 2px solid #1f2937;
 }
 
 .kv-leaf {
@@ -266,8 +265,4 @@ button:hover {
   margin: 0;
   white-space: pre-wrap;
   word-break: break-word;
-  background: #0b1220;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #1f2937;
 }
